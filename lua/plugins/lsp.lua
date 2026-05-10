@@ -3,7 +3,7 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPre", "BufNewFile" },
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
+      'saghen/blink.cmp',
       { "antosha417/nvim-lsp-file-operations", config = true },
       { "folke/neodev.nvim", opts = {} },
       "williamboman/mason.nvim",
@@ -12,10 +12,8 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       local mason_lspconfig = require("mason-lspconfig")
-      local cmp_nvim_lsp = require("cmp_nvim_lsp")
 
       -- Initialize mason-lspconfig before lspconfig
-      -- Note: mason-lspconfig v2.x uses automatic_enable = true by default
       mason_lspconfig.setup({
         ensure_installed = {
           "ts_ls",
@@ -85,7 +83,8 @@ return {
         end,
       })
 
-      local capabilities = cmp_nvim_lsp.default_capabilities()
+      -- Get blink capabilities
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
       for type, icon in pairs(signs) do
